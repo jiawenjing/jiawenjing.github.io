@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		*{margin:0; padding:0; list-style: none;}
+		html,body{width:100%; height:100%; overflow: hidden;}
+		.ul1{width:100px; height:200px;
+			 position: relative; 
+			 margin: 200px auto;
+			 transform-origin: center;
+			transform: perspective(800px) rotateX(-25deg);
+			transform-style: preserve-3d;
+			}
+		.ul1 li{
+			width:100px; height:200px; 
+			position: absolute;left: 0; top:0;
+			
+		}
+	</style>
+	<script>
+		window.onload = function(){
+			let oUl = document.getElementsByTagName('ul')[0];
+			let aLi = document.getElementsByTagName('li');
+			for(let i = 0; i<aLi.length; i++){
+				aLi[i].style.transition= '1s all ease '+(aLi.length-i)*100+'ms';
+				aLi[i].style.transform = `rotateY(${360/aLi.length*i}deg) translateZ(300px)`;
+
+			}
+			let X = 0;
+			let Y = 0;
+			document.onmousedown = function(ev){
+				let oEvent = ev || event;
+				let disX =oEvent.pageX - X; 
+				let disY =oEvent.pageY - Y; 
+				
+				document.onmousemove = function(ev){
+					let oEvent = ev || event;
+					X = oEvent.pageX-disX;
+					Y = oEvent.pageY-disY;
+					oUl.style.transform=`perspective(800px) rotateY(${X/10}deg) rotateX(${-Y/10}deg)`
+				};
+				document.onmouseup = function(){
+					document.onmousemove = null;
+					document.onmouseup = null;
+				}
+				return false;
+			}
+			
+		};
+	</script>
+</head>
+<body>
+	<ul class="ul1">
+		<li style="background:#A0F;">1</li> 
+	    <li style="background:#C0C;">2</li>  
+	    <li style="background:#0FC;">3</li> 
+	    <li style="background:#0CC;">4</li>
+	    <li style="background:#C00;">5</li>
+	    <li style="background:#0C0;">6</li>
+	    <li style="background:#0FC;">7</li>
+	    <li style="background:#0CC;">8</li>
+	    <li style="background:#C00;">9</li>
+	    <li style="background:#0C0;">10</li>
+	</ul>
+</body>
+</html>
